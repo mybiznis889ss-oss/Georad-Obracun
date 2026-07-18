@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  OBRAČUN ZARADE — aplikacija za šihtaricu i obračun zarade
+  ------------------------------------------------------------
+  © 2026 Stefan Stekulac. Sva prava zadržana.
+
+  Autor i nosilac svih prava na ovu aplikaciju, njen dizajn,
+  logiku obračuna i šifarnik je Stefan Stekulac.
+
+  Zabranjeno je: preprodaja, iznajmljivanje, objavljivanje pod
+  drugim imenom, uklanjanje ove napomene, kao i komercijalno
+  korišćenje bez pismene saglasnosti autora.
+
+  Dozvoljeno je: lično korišćenje i deljenje kolegama u
+  neizmenjenom obliku, sa zadržanom ovom napomenom.
+
+  Kontakt za dozvole i licenciranje: (upiši svoj kontakt)
+  ============================================================
+-->
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#c0392b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- manifest inline u skripti -->
+<link rel="icon" href="data:image/png;base64,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">
+<title>Obračun zarade</title>
+<style>
+/* ---------------------------------------------------------------
+   Telefon: jedan ekran u fokusu, navigacija dole gde je palac.
+   Sve mere su takve da najmanja meta za prst bude 44px.
+   --------------------------------------------------------------- */
+:root{
+  --kobelco:#38596a; --kobelco-tamna:#294552; --kobelco-svetla:#5b7d8e;
+  --crvena:#c0392b; --zelena:#1a7a3a; --zuta:#f2b100;
+  --pozadina:#dde1e3; --panel:#fff; --tekst:#1b2226; --tekst2:#556069; --tekst3:#8b959c;
+  --okvir:#aab4ba; --linija:rgba(27,34,38,.12); --linija2:rgba(27,34,38,.22);
+  --broj:"SFMono-Regular",Consolas,"Roboto Mono",monospace;
+  --vrh:env(safe-area-inset-top,0px); --dno:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--pozadina)}
+body{background:var(--pozadina);color:var(--tekst);
+     font:15px/1.45 -apple-system,"Segoe UI",Roboto,system-ui,sans-serif;
+     overscroll-behavior:none}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select{font:inherit}
+
+/* ---- zaglavlje ---- */
+header{position:fixed;top:0;left:0;right:0;z-index:20;
+  background:linear-gradient(180deg,#3f6376,#2d4a58);color:#fff;
+  padding:calc(var(--vrh) + 8px) 12px 8px;box-shadow:0 2px 14px rgba(20,40,50,.35);
+  border-bottom:3px solid var(--zuta)}
+.naslov{display:flex;align-items:center;gap:8px;width:100%;font-size:13px;font-weight:700;opacity:.95}
+.naslov::before{content:"";width:16px;height:9px;flex-shrink:0;border-radius:1px;
+  background:repeating-linear-gradient(45deg,var(--zuta) 0 4px,#1a1c1f 4px 8px)}
+.mesec-red{display:flex;align-items:center;gap:6px;margin-top:6px}
+.mesec-red .ime{flex:1;text-align:center;font-size:17px;font-weight:700}
+.strelica{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.16);
+  font-size:19px;display:flex;align-items:center;justify-content:center}
+.strelica:active{background:rgba(255,255,255,.3)}
+
+/* ---- glavni prostor ---- */
+main{position:relative;z-index:1;padding:calc(var(--vrh) + 96px) 12px calc(var(--dno) + 76px)}
+.ekran{display:none}.ekran.vidljiv{display:block}
+
+h2{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--tekst3);
+   font-weight:700;margin:18px 2px 7px}
+h2:first-child{margin-top:0}
+
+.kartica{background:rgba(255,255,255,.85);backdrop-filter:blur(2px);
+  border:1.5px solid var(--okvir);border-radius:12px;overflow:hidden;
+  box-shadow:0 1px 3px rgba(27,34,38,.06)}
+.red{display:flex;align-items:center;justify-content:space-between;gap:10px;
+     padding:11px 13px;border-bottom:1px solid var(--linija);min-height:48px}
+.red:last-child{border-bottom:none}
+.red label{font-size:14px}
+.napomena{font-size:11px;color:var(--tekst3);margin-top:1px}
+.polje{width:118px;padding:9px 8px;text-align:right;font-family:var(--broj);font-size:14px;
+  border:1px solid var(--linija2);border-radius:8px;background:#fbfaf9;outline:none;min-height:40px}
+.polje:focus{border-color:var(--crvena);background:#fff}
+.polje.siroko{width:100%;text-align:left}
+
+.dugme{background:var(--crvena);color:#fff;border-radius:10px;padding:12px 14px;
+  font-size:14px;font-weight:600;min-height:46px}
+.dugme:active{filter:brightness(.88)}
+.dugme.tiho{background:rgba(255,255,255,.9);color:var(--tekst2);border:1.5px solid var(--okvir)}
+.dugme.puno{width:100%}
+.dugmad{display:flex;gap:8px;margin-top:10px}
+.dugmad>*{flex:1}
+/* ON/OFF prekidač */
+.switch{position:relative;width:46px;height:26px;flex-shrink:0;display:inline-block}
+.switch input{opacity:0;width:0;height:0}
+.switch .klizac{position:absolute;inset:0;border-radius:26px;background:#c3cacf;
+  transition:background .15s}
+.switch .klizac::before{content:"";position:absolute;width:20px;height:20px;left:3px;top:3px;
+  border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .15s}
+.switch input:checked + .klizac{background:var(--zelena)}
+.switch input:checked + .klizac::before{transform:translateX(20px)}
+
+/* ---- kalendar ---- */
+.kal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.naziv-dana{text-align:center;font-size:9px;color:var(--tekst3);font-weight:700;padding:3px 0}
+.dan{aspect-ratio:1/1.15;border-radius:9px;border:1px solid rgba(27,34,38,.16);padding:3px 2px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  user-select:none;transition:transform .06s;
+  box-shadow:0 1px 2px rgba(27,34,38,.14), inset 0 1px 0 rgba(255,255,255,.45)}
+.dan:active{transform:scale(.92)}
+.dan .broj{font-family:var(--broj);font-size:13px;font-weight:700;line-height:1.1}
+.dan .oznaka{font-size:7.5px;line-height:1.1;opacity:.85;text-align:center}
+.dan.rucno{border-style:dashed;border-width:1.5px;border-color:currentColor}
+.t-D{background:#fcdbe6;color:#8a1a3a}
+.t-N{background:#14161b;color:#c9c9e8}
+.t--{background:#d3dde2;color:#3f5966}
+.t-S{background:#a9e8de;color:#0d5d52}
+.t-G{background:#f7edac;color:#6a5c00}
+.t-P{background:#e4f6ee;color:#0a5e50}
+.t-R{background:#ffdcbc;color:#8a4a12}
+
+.legenda{display:flex;flex-wrap:wrap;gap:7px;margin:10px 2px}
+.legenda span{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--tekst2)}
+.legenda i{width:10px;height:10px;border-radius:3px;display:block;flex-shrink:0}
+
+.cipovi{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:12px}
+.cipovi div{background:rgba(255,255,255,.85);backdrop-filter:blur(2px);
+  border:1.5px solid var(--okvir);border-radius:11px;padding:9px 10px;
+  box-shadow:0 1px 3px rgba(27,34,38,.06)}
+.cipovi .v{font-family:var(--broj);font-size:16px;font-weight:700;color:var(--kobelco)}
+
+/* ---- suma para na dnu šihtarice ---- */
+.suma-para{margin-top:12px;border-radius:14px;overflow:hidden;cursor:pointer;
+  background:linear-gradient(180deg,#1a7a3a,#156130);color:#fff;
+  border:1.5px solid #12522a;box-shadow:0 2px 10px rgba(21,97,48,.28);
+  border-top:3px solid var(--zuta);
+  display:flex;justify-content:space-between;align-items:center;padding:13px 15px;
+  transition:transform .06s}
+.suma-para:active{transform:scale(.985)}
+.suma-para .oznaka{font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.06em;opacity:.9;line-height:1.3}
+.suma-para .oznaka small{display:block;font-weight:400;opacity:.8;font-size:9px;
+  letter-spacing:0;text-transform:none}
+.suma-para .iznos{font-family:var(--broj);font-size:22px;font-weight:700;white-space:nowrap}
+
+/* ---- animacije ---- */
+@keyframes klizniLevo{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:none}}
+@keyframes klizniDesno{from{opacity:0;transform:translateX(-22px)}to{opacity:1;transform:none}}
+@keyframes blagoUnutra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.kal.ka-levo{animation:klizniLevo .22s ease-out}
+.kal.ka-desno{animation:klizniDesno .22s ease-out}
+.ekran.vidljiv{animation:blagoUnutra .2s ease-out}
+@keyframes pulsDanas{
+  0%{box-shadow:0 0 0 0 rgba(56,89,106,.55)}
+  70%{box-shadow:0 0 0 10px rgba(56,89,106,0)}
+  100%{box-shadow:0 0 0 0 rgba(56,89,106,0)}}
+.dan.danas{outline:3px solid var(--kobelco);outline-offset:1px;
+  animation:pulsDanas 1.4s ease-out 2}
+.dan.danas .broj{color:var(--kobelco);font-size:15px}
+.dan.danas .broj::after{content:" •";color:var(--zuta)}
+.cipovi .o{font-size:9px;color:var(--tekst3);text-transform:uppercase;letter-spacing:.04em;margin-top:1px}
+
+/* ---- platni list ---- */
+.list{background:rgba(255,255,255,.92);backdrop-filter:blur(3px);
+  border:1.5px solid var(--okvir);border-radius:12px;overflow:hidden;
+  box-shadow:0 2px 8px rgba(27,34,38,.08)}
+.list-vrh{background:linear-gradient(180deg,#3f6376,#2d4a58);color:#fff;padding:11px 13px;
+  border-bottom:3px solid var(--zuta)}
+.list-vrh .nad{font-size:9px;text-transform:uppercase;letter-spacing:.08em;opacity:.8}
+.list-vrh .glavni{font-size:16px;font-weight:700;margin-top:1px}
+.list-vrh .ispod{font-size:10px;opacity:.85;margin-top:3px;line-height:1.35}
+.sekcija{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--tekst2);background:rgba(221,225,227,.75);padding:5px 13px;
+  border-top:1px solid var(--linija);border-bottom:1px solid var(--linija)}
+/* Telefon je preuzak za 6 kolona -> svaka stavka je blok, ne red tabele */
+.stavka{padding:8px 13px;border-bottom:1px solid var(--linija);display:flex;
+  justify-content:space-between;align-items:flex-start;gap:8px}
+.stavka:last-child{border-bottom:none}
+.stavka .sifra{font-family:var(--broj);font-size:10px;color:var(--kobelco);font-weight:700}
+.stavka .naziv{font-size:13px;font-weight:600;line-height:1.3}
+.stavka .detalj{font-size:10px;color:var(--tekst3);font-family:var(--broj);margin-top:2px}
+.stavka .iznos{font-family:var(--broj);font-size:13px;font-weight:700;white-space:nowrap}
+.suma{display:flex;justify-content:space-between;align-items:center;padding:10px 13px;
+  background:rgba(221,225,227,.75);border-top:1.5px solid var(--linija2);gap:8px}
+.suma .o{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.suma .v{font-family:var(--broj);font-size:14px;font-weight:700}
+.isplata{background:linear-gradient(180deg,#1a7a3a,#156130);color:#fff;padding:14px 13px;
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  border-top:3px solid var(--zuta)}
+.isplata .o{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;opacity:.9}
+.isplata .v{font-family:var(--broj);font-size:20px;font-weight:700}
+
+/* ---- donja navigacija ---- */
+nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:rgba(255,255,255,.94);
+  backdrop-filter:blur(8px);
+  border-top:1.5px solid var(--okvir);display:flex;padding-bottom:var(--dno);
+  box-shadow:0 -2px 14px rgba(27,34,38,.09)}
+nav button{flex:1;padding:9px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;
+  font-size:10px;font-weight:600;color:var(--tekst3);min-height:56px;justify-content:center}
+nav button .znak{font-size:19px;line-height:1}
+nav button.aktivan{color:var(--kobelco)}
+
+/* ---- donji list (izbor tipa dana) ---- */
+.zavesa{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:30;display:none}
+.zavesa.otvorena{display:block}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:31;background:#fff;
+  border-radius:16px 16px 0 0;padding:10px 10px calc(var(--dno) + 14px);
+  transform:translateY(100%);transition:transform .2s ease-out}
+.sheet.otvoren{transform:translateY(0)}
+.sheet .rucka{width:38px;height:4px;background:var(--linija2);border-radius:2px;margin:2px auto 10px}
+.sheet .zaglavlje-sheet{font-size:13px;font-weight:700;padding:0 6px 8px;color:var(--tekst2)}
+.sheet button.izbor{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  padding:13px 12px;border-radius:10px;font-size:15px;min-height:48px}
+.sheet button.izbor:active{background:var(--pozadina)}
+.sheet button.izbor i{width:16px;height:16px;border-radius:4px;display:block;flex-shrink:0}
+
+.prazno{color:var(--tekst3);font-size:13px;padding:12px;text-align:center}
+.poruka{position:fixed;left:12px;right:12px;bottom:calc(var(--dno) + 68px);z-index:40;
+  background:#1a1a1a;color:#fff;border-radius:10px;padding:11px 13px;font-size:13px;
+  opacity:0;transition:opacity .2s;pointer-events:none}
+.poruka.vidi{opacity:.95}
+
+/* ---- štampa: samo platni list ---- */
+@media print{
+  header,nav,.alatke,.ekran:not(#ekran-obracun){display:none!important}
+  main{padding:0}
+  #ekran-obracun{display:block!important}
+  .list{border:none;border-radius:0}
+  .list-vrh{background:#fff!important;color:#000!important;border-bottom:2px solid #000;
+    -webkit-print-color-adjust:exact}
+  .isplata{background:#fff!important;color:#000!important;border-top:2px solid #000}
+  @page{size:A4;margin:12mm}
+}
+/* ---- tablet / široki ekran ---- */
+@media (min-width:760px){
+  main{max-width:720px;margin:0 auto}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="naslov"><span id="ime-zaposlenog"></span>
+    <span style="margin-left:auto;font-size:10px;font-weight:600;opacity:.75">v1.1</span></div>
+  <div class="mesec-red">
+    <button class="strelica" onclick="pomeriMesec(-1)">‹</button>
+    <div class="ime" id="naziv-meseca"></div>
+    <button class="strelica" onclick="pomeriMesec(1)">›</button>
+  </div>
+</header>
+
+<main>
+  <!-- ============ ŠIHTARICA ============ -->
+  <section class="ekran vidljiv" id="ekran-kalendar">
+    <div class="kal" id="kalendar"></div>
+    <div class="legenda">
+      <span><i style="background:#fcdbe6"></i>Dnevna</span>
+      <span><i style="background:#14161b"></i>Noćna</span>
+      <span><i style="background:#d3dde2"></i>Slobodan ciklus 0h</span>
+      <span><i style="background:#a9e8de"></i>Slobodan namenski 8h</span>
+      <span><i style="background:#f7edac"></i>God. odmor 8h</span>
+      <span><i style="background:#e4f6ee"></i>Praznik</span>
+      <span><i style="background:#ffdcbc"></i>Rad na praznik</span>
+    </div>
+    <div class="cipovi" id="cipovi"></div>
+    <div class="suma-para" id="suma-para" onclick="prikazi('obracun')"></div>
+    <div class="dugmad"><button class="dugme tiho" onclick="naDanas()">📍 Skoči na danas</button></div>
+  </section>
+
+  <!-- ============ OBRAČUN ============ -->
+  <section class="ekran" id="ekran-obracun">
+    <div class="alatke dugmad" style="margin:0 0 10px">
+      <button class="dugme" onclick="window.print()">Štampaj / PDF</button>
+      <button class="dugme tiho" onclick="zakljucaj()">Zaključaj mesec</button>
+    </div>
+    <div class="list" id="list"></div>
+  </section>
+
+  <!-- ============ PODEŠAVANJA ============ -->
+  <section class="ekran" id="ekran-podesavanja">
+    <h2>Zaposleni</h2>
+    <div class="kartica" id="polja-zaposleni"></div>
+
+    <h2>Turnus</h2>
+    <div class="kartica">
+      <div class="red">
+        <div><label>Šablon ciklusa</label>
+          <div class="napomena">D=dnevna, N=noćna, -=slobodan</div></div>
+        <input class="polje" id="p-sablon" onchange="postaviZ('sablon_turnusa', this.value, true)">
+      </div>
+      <div class="red">
+        <div><label>Prva smena ciklusa</label>
+          <div class="napomena">datum od kog šablon kreće</div></div>
+        <input class="polje" id="p-pocetak" type="date"
+               onchange="postaviZ('pocetak_turnusa', this.value, true)">
+      </div>
+    </div>
+
+    <h2>Poreski parametri</h2>
+    <div class="kartica" id="polja-parametri"></div>
+
+    <h2>Dodatni (obećani) sati</h2>
+    <div class="kartica" id="polja-dodatak"></div>
+    <div class="napomena" style="margin:8px 2px">
+      Kad radiš ceo mesec bez godišnjeg, ovih sati se dopisuje preko ostvarenih.
+      Ukupno ne prelazi limit — višak se prenosi u sledeći mesec ako je uključeno.
+    </div>
+
+    <h2>Obustave</h2>
+    <div class="kartica" id="lista-obustava"></div>
+    <div class="dugmad">
+      <button class="dugme tiho" onclick="novaObustava('fiksna')">+ Sindikat 706</button>
+      <button class="dugme tiho" onclick="novaObustava('dug')">+ Kredit 139</button>
+    </div>
+
+    <h2>Zaključani meseci</h2>
+    <div id="arhiva"></div>
+
+    <h2>Backup</h2>
+    <div class="dugmad">
+      <button class="dugme tiho" onclick="izvezi()">Izvezi JSON</button>
+      <button class="dugme tiho" onclick="document.getElementById('uvoz').click()">Uvezi JSON</button>
+    </div>
+    <input type="file" id="uvoz" accept="application/json" style="display:none" onchange="uvezi(this)">
+    <div class="napomena" style="margin:8px 2px">
+      Podaci stoje samo u ovom telefonu. Brisanje podataka pregledača ih briše —
+      izvozi JSON s vremena na vreme.
+    </div>
+
+    <div style="margin:18px 2px 4px;padding-top:12px;border-top:1px solid var(--linija);
+         font-size:11px;color:var(--tekst3);line-height:1.5">
+      <span style="display:inline-block;background:var(--kobelco);color:#fff;
+        font-weight:700;padding:2px 8px;border-radius:20px;font-size:11px;
+        margin-bottom:6px">verzija 1.1</span><br>
+      © 2026 Stefan Stekulac. Sva prava zadržana.<br>
+      Zabranjena preprodaja i komercijalno korišćenje bez saglasnosti autora.
+      Dozvoljeno lično korišćenje i deljenje kolegama u neizmenjenom obliku.
+    </div>
+  </section>
+</main>
+
+<nav>
+  <button class="aktivan" data-ekran="kalendar" onclick="prikazi('kalendar')">
+    <span class="znak">▦</span>Šihtarica</button>
+  <button data-ekran="obracun" onclick="prikazi('obracun')">
+    <span class="znak">₫</span>Obračun</button>
+  <button data-ekran="podesavanja" onclick="prikazi('podesavanja')">
+    <span class="znak">⚙</span>Podešavanja</button>
+</nav>
+
+<div class="zavesa" id="zavesa" onclick="zatvoriSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="rucka"></div>
+  <div class="zaglavlje-sheet" id="sheet-naslov"></div>
+  <div id="sheet-sadrzaj"></div>
+</div>
+
+<div class="poruka" id="poruka"></div>
+
+<script>
+/* ===== MOTOR-POCETAK ===== */
+/* =====================================================================
+   Doslovan prevod obracun.py i kalendar.py na JavaScript.
+   Isti nazivi funkcija, isti redosled operacija, isto zaokruživanje.
+   test_paritet.js poredi izlaz ovog motora sa Python verzijom -- ako
+   nešto ovde promeniš a ne promeniš i u Pythonu, test pukne.
+   ===================================================================== */
+
+const SIFRE = {
+  GO: 3, SLOBODAN: 5, PRAZNIK: 7, RAD_PRAZNIK: 8, NEDELJA: 11, NOCNI: 12, REGRES: 18,
+  OBROK: 19, UCINAK: 26, MINULI_DRUGDE: 101, MINULI_GEORAD: 116,
+  REDOVAN: 202, PUTNI: 210, DODATAK: 250,
+};
+const NAZIVI_SIFARA = {
+  3: 'Godišnji odmor', 5: 'Namenski slobodan dan', 7: 'Državni praznik',
+  8: 'Rad na praznik', 11: 'Rad nedeljom', 12: 'Noćni rad', 18: 'Regres',
+  19: 'Topli obrok', 26: 'Rad po učinku', 101: 'Minuli rad - druge firme',
+  116: 'Minuli rad - Georad', 202: 'Redovan rad', 210: 'Naknada troškova prevoza',
+  250: 'Dodatni (obećani) sati',
+};
+const SATI_PO_SMENI = 12, SATI_PO_DANU_OBROK = 8, SATI_RADNI_DAN = 8;
+const SIFRA_SINDIKAT = 706, SIFRA_SUDSKA = 139;
+
+/* Zaokruživanje na 2 decimale, HALF_UP -- isto što Decimal radi u Pythonu.
+   Epsilon hvata float greške tipa 200.49999999999997 koje bi inače
+   oborile iznos za jednu paru. */
+function zaokruzi(x) {
+  const eps = 1e-9;
+  return Math.sign(x) * Math.floor(Math.abs(x) * 100 + 0.5 + eps) / 100;
+}
+
+/* --- datumi: sve u UTC, da letnje/zimsko vreme ne pomeri dan --- */
+function uDatum(iso) { const [g, m, d] = iso.split('-').map(Number); return Date.UTC(g, m-1, d); }
+function uIso(ts) { return new Date(ts).toISOString().slice(0, 10); }
+function danaIzmedju(a, b) { return Math.round((a - b) / 86400000); }
+function danUNedelji(ts) { return (new Date(ts).getUTCDay() + 6) % 7; }  // 0 = ponedeljak
+
+/* Pravoslavni Uskrs: Meeus za julijanski kalendar + 13 dana (1900-2099). */
+function pravoslavniUskrs(godina) {
+  const a = godina % 4, b = godina % 7, c = godina % 19;
+  const d = (19*c + 15) % 30;
+  const e = (2*a + 4*b - d + 34) % 7;
+  const mesec = Math.floor((d + e + 114) / 31);
+  const dan = ((d + e + 114) % 31) + 1;
+  return Date.UTC(godina, mesec-1, dan) + 13*86400000;
+}
+
+function praznici(godina) {
+  const u = pravoslavniUskrs(godina);
+  const dan = n => uIso(u + n*86400000);
+  const p = {};
+  p[`${godina}-01-01`] = 'Nova godina';
+  p[`${godina}-01-02`] = 'Nova godina';
+  p[`${godina}-01-07`] = 'Božić';
+  p[`${godina}-02-15`] = 'Dan državnosti (Sretenje)';
+  p[`${godina}-02-16`] = 'Dan državnosti (Sretenje)';
+  p[`${godina}-05-01`] = 'Praznik rada';
+  p[`${godina}-05-02`] = 'Praznik rada';
+  p[`${godina}-11-11`] = 'Dan primirja';
+  p[dan(-2)] = 'Veliki petak';
+  p[dan(-1)] = 'Velika subota';
+  p[dan(0)] = 'Vaskrs';
+  p[dan(1)] = 'Vaskrsni ponedeljak';
+  return p;
+}
+
+/* Turnus: šablon proizvoljne dužine koji se vrti od zadatog datuma.
+   Radi i unazad -- (((x % n) + n) % n) jer JS % vraća negativno. */
+function tipPoTurnusu(ts, pocetakTs, sablon) {
+  if (!sablon) throw new Error('Šablon turnusa ne sme biti prazan');
+  const n = sablon.length;
+  const poz = ((danaIzmedju(ts, pocetakTs) % n) + n) % n;
+  return sablon[poz];
+}
+
+function satiZaTip(tip) {
+  if (['D', 'N', 'R', 'P'].includes(tip)) return SATI_PO_SMENI;  // rad/naknada 12h
+  if (tip === 'G' || tip === 'S') return SATI_RADNI_DAN;          // odmor/namenski slobodan 8h
+  return 0;                                                        // slobodan iz ciklusa 0h
+}
+
+function generisiMesec(godina, mesec, pocetakIso, sablon, overrides) {
+  overrides = overrides || {};
+  const prazn = praznici(godina);
+  const pocetakTs = uDatum(pocetakIso);
+  const brojDana = new Date(Date.UTC(godina, mesec, 0)).getUTCDate();
+  const dani = [];
+  for (let d = 1; d <= brojDana; d++) {
+    const ts = Date.UTC(godina, mesec-1, d);
+    const iso = uIso(ts);
+    const turnusTip = tipPoTurnusu(ts, pocetakTs, sablon);
+    const nazivPraznika = prazn[iso] || null;
+    const rucno = iso in overrides;
+    let tip;
+    if (rucno) tip = overrides[iso];
+    // Praznik na radni dan po turnusu -> naknada (šifra 7), ne radi se.
+    // Praznik na slobodan dan -> ništa, ostaje slobodan.
+    else if (nazivPraznika && (turnusTip === 'D' || turnusTip === 'N')) tip = 'P';
+    else tip = turnusTip;
+    dani.push({datum: iso, dan: d, tip, sati: satiZaTip(tip),
+               nedelja: danUNedelji(ts) === 6, praznik: nazivPraznika, rucno,
+               danUNedelji: danUNedelji(ts)});
+  }
+  return dani;
+}
+
+function saberiSate(dani, nocniPoSmeni) {
+  const r = {redovni: 0, nedelja: 0, nocni: 0, rad_praznik: 0, praznik: 0, go: 0,
+             slobodan_nam: 0, radnih_dana: 0};
+  for (const dan of dani) {
+    if (dan.tip === 'D' || dan.tip === 'N' || dan.tip === 'R') {
+      r.redovni += dan.sati;
+      r.radnih_dana += 1;
+      if (dan.nedelja) r.nedelja += dan.sati;
+      if (dan.tip === 'N') r.nocni += nocniPoSmeni;
+      if (dan.tip === 'R') r.rad_praznik += dan.sati;
+    } else if (dan.tip === 'P') r.praznik += dan.sati;
+    else if (dan.tip === 'G') r.go += dan.sati;
+    else if (dan.tip === 'S') r.slobodan_nam += dan.sati;
+  }
+  return r;
+}
+
+function obracunaj(z, dani, p, obustave, dodatak) {
+  obustave = obustave || [];
+  dodatak = dodatak || {};
+  const cenaSata = z.vrednost_sata * z.koeficijent;
+  const h = saberiSate(dani, z.nocni_sati_po_smeni || 0);
+  const primanja = [];
+
+  // Dodaje red samo ako iznos nije nula -- prazni redovi na listiću smetaju.
+  const dodaj = (sifra, sati, stopa, osnovica, iznos) => {
+    iznos = zaokruzi(iznos);
+    if (iznos === 0) return 0;
+    primanja.push({sifra, naziv: NAZIVI_SIFARA[sifra], sati, stopa,
+                   osnovica: zaokruzi(osnovica), iznos});
+    return iznos;
+  };
+
+  // Šifra 202: sati × vrednost sata × koeficijent
+  const r202 = dodaj(SIFRE.REDOVAN, h.redovni, z.koeficijent, z.vrednost_sata,
+                     h.redovni * cenaSata);
+  // Uvećanja -- dolaze POVRH šifre 202, ne umesto nje
+  dodaj(SIFRE.NEDELJA, h.nedelja, p.uvecanje_nedelja*100, cenaSata,
+        h.nedelja * cenaSata * p.uvecanje_nedelja);
+  // Noćni uvećanje (šifra 12) — samo ako je uključeno. Kad je isključeno,
+  // noćna smena i dalje ulazi u redovan rad (202), ali bez uvećanja od 45%.
+  if (z.nocni_ukljucen !== false)
+    dodaj(SIFRE.NOCNI, h.nocni, p.uvecanje_nocni*100, cenaSata,
+          h.nocni * cenaSata * p.uvecanje_nocni);
+  dodaj(SIFRE.RAD_PRAZNIK, h.rad_praznik, p.uvecanje_praznik*100, cenaSata,
+        h.rad_praznik * cenaSata * p.uvecanje_praznik);
+  // Naknade
+  dodaj(SIFRE.PRAZNIK, h.praznik, 100, cenaSata, h.praznik * cenaSata);
+  dodaj(SIFRE.GO, h.go, 100, cenaSata, h.go * cenaSata);
+  dodaj(SIFRE.SLOBODAN, h.slobodan_nam, 100, cenaSata, h.slobodan_nam * cenaSata);
+
+  // --- DODATAK SATI (obećani sati) ---------------------------------------
+  // Uslov: uključeno + nema godišnjeg odmora u mesecu ("radim ceo mesec").
+  // Ukupno (redovni + dodato) NE sme preko max_sati (220). Ono što ne stane
+  // prenosi se u sledeći mesec ako je "prenesi višak" uključeno.
+  let dodatakInfo = {primenjen: 0, visak: 0, preneto: dodatak.preneto || 0,
+                     zeljeno: 0, aktivan: false};
+  if (dodatak.ukljucen && h.go === 0) {
+    dodatakInfo.aktivan = true;
+    const zeljeno = (dodatak.sati || 0) + (dodatak.preneto || 0);
+    const prostor = Math.max(0, (dodatak.max_sati || 220) - h.redovni);
+    const primenjen = Math.min(zeljeno, prostor);
+    dodatakInfo.zeljeno = zeljeno;
+    dodatakInfo.primenjen = primenjen;
+    dodatakInfo.visak = dodatak.prenesi ? (zeljeno - primenjen) : 0;
+    dodaj(SIFRE.DODATAK, primenjen, z.koeficijent, z.vrednost_sata,
+          primenjen * cenaSata);
+  }
+
+  // Procenti na osnovnu zaradu
+  dodaj(SIFRE.UCINAK, 0, z.ucinak_pct || 0, r202, r202 * (z.ucinak_pct||0) / 100);
+  const md = z.minuli_drugde_pct != null ? z.minuli_drugde_pct
+           : (z.staz_drugde_god||0) * p.minuli_po_godini * 100;
+  const mg = z.minuli_georad_pct != null ? z.minuli_georad_pct
+           : (z.staz_georad_god||0) * p.minuli_po_godini * 100;
+  dodaj(SIFRE.MINULI_DRUGDE, 0, md, r202, r202 * md / 100);
+  dodaj(SIFRE.MINULI_GEORAD, 0, mg, r202, r202 * mg / 100);
+  // Topli obrok: 12h smena = 1,5 "radnog dana"
+  const obrokDana = h.redovni / SATI_PO_DANU_OBROK;
+  dodaj(SIFRE.OBROK, obrokDana, z.obrok_po_danu||0, obrokDana,
+        obrokDana * (z.obrok_po_danu||0));
+  dodaj(SIFRE.REGRES, 0, 0, 0, z.regres || 0);
+  dodaj(SIFRE.PUTNI, 0, 0, 0, z.putni || 0);
+
+  const bruto = zaokruzi(primanja.reduce((s, x) => s + x.iznos, 0));
+  const poreskaOsnovica = Math.max(0, bruto - p.poreska_olaksica);
+
+  const porezi = [];
+  const porezRed = (naziv, stopa, osnovica) => {
+    const iznos = zaokruzi(osnovica * stopa);
+    porezi.push({naziv, stopa: stopa*100, osnovica: zaokruzi(osnovica),
+                 ukupno: iznos, placeno: 0, za_uplatu: iznos});
+    return iznos;
+  };
+  const pio = porezRed('PIO zaposleni', p.stopa_pio, bruto);
+  const por = porezRed('Porez na lična primanja', p.stopa_porez, poreskaOsnovica);
+  const zdr = porezRed('Zdravstveno osiguranje', p.stopa_zdravstveno, bruto);
+  const nez = porezRed('Doprinos za nezaposlenost', p.stopa_nezaposlenost, bruto);
+
+  const ukupnoDoprinosi = zaokruzi(pio + por + zdr + nez);
+  const neto = zaokruzi(bruto - ukupnoDoprinosi);
+  const stavkeObustava = primeniObustave(obustave, neto);
+  const ukupnoObustave = zaokruzi(stavkeObustava.reduce((s, x) => s + x.iznos, 0));
+
+  return {
+    primanja, porezi, obustave: stavkeObustava, sati: h,
+    sati_ukupno: h.redovni + h.praznik + h.go + h.slobodan_nam + dodatakInfo.primenjen,
+    dodatak: dodatakInfo,
+    bruto, ukupno_doprinosi: ukupnoDoprinosi, neto,
+    ukupno_obustave: ukupnoObustave, isplata: zaokruzi(neto - ukupnoObustave),
+  };
+}
+
+function primeniObustave(obustave, neto) {
+  const rezultat = [];
+  let preostaloNeto = neto;
+  for (const ob of obustave) {
+    if (!ob.aktivna) continue;
+    const rata = ob.iznos_mesecno || 0;
+    let dugPre = null, iznos;
+    if (ob.tip === 'dug') {
+      dugPre = (ob.ukupan_dug || 0) - (ob.otplaceno || 0);
+      if (dugPre <= 0) continue;          // dug otplaćen -> obustava se gasi
+      iznos = Math.min(rata, dugPre);      // poslednja rata = ostatak duga
+    } else iznos = rata;
+    iznos = Math.min(zaokruzi(iznos), preostaloNeto);  // isplata ne sme u minus
+    if (iznos <= 0) continue;
+    preostaloNeto -= iznos;
+    rezultat.push({id: ob.id, sifra: ob.sifra, naziv: ob.naziv, iznos,
+                   dug_pre: dugPre !== null ? zaokruzi(dugPre) : null,
+                   dug_posle: dugPre !== null ? zaokruzi(dugPre - iznos) : null});
+  }
+  return rezultat;
+}
+
+/* ===== MOTOR-KRAJ ===== */
+
+
+/* =====================================================================
+   PODACI -- localStorage. Ista imena polja kao SQLite tabele u desktop
+   verziji, da JSON iz jedne može da se prežvaće u drugu.
+   ===================================================================== */
+const K = {z: 'gz_z', p: 'gz_p', ov: 'gz_ov', ob: 'gz_ob', ar: 'gz_ar',
+           dd: 'gz_dd', pr: 'gz_pr'};
+
+const PODRAZUMEVANI_ZAPOSLENI = {
+  ime: 'Stefan Stekulac', mb: '786', vrednost_sata: 262.150, koeficijent: 2.25,
+  staz_georad_god: 1.25, staz_drugde_god: 3.75,
+  minuli_georad_pct: 0.5, minuli_drugde_pct: 1.5,
+  ucinak_pct: 20, regres: 5500, obrok_po_danu: 500, putni: 0,
+  nocni_sati_po_smeni: 10, nocni_ukljucen: true,
+  sablon_turnusa: 'DDDD----', pocetak_turnusa: '2026-01-01',
+};
+const PODRAZUMEVANI_PARAMETRI = {
+  stopa_pio: 0.14, stopa_porez: 0.10, stopa_zdravstveno: 0.0515,
+  stopa_nezaposlenost: 0.0075, poreska_olaksica: 34221,
+  uvecanje_nedelja: 0.15, uvecanje_nocni: 0.45, uvecanje_praznik: 1.10,
+  minuli_po_godini: 0.004,
+};
+// Podešavanja dodatka obećanih sati (podrazumevano ISKLJUČENO)
+const PODRAZUMEVANI_DODATAK = {
+  ukljucen: false,   // ON/OFF: da li se dodaju obećani sati
+  sati: 16,          // koliko sati se dodaje
+  max_sati: 220,     // gornji limit ukupnih sati u mesecu
+  prenesi: true,     // ON/OFF: prenesi višak (preko 220) u sledeći mesec
+};
+
+function ucitaj(kljuc, podrazumevano) {
+  try {
+    const v = localStorage.getItem(kljuc);
+    return v ? JSON.parse(v) : podrazumevano;
+  } catch (e) { return podrazumevano; }
+}
+function sacuvaj(kljuc, vrednost) {
+  try { localStorage.setItem(kljuc, JSON.stringify(vrednost)); }
+  catch (e) { poruka('Ne mogu da sačuvam: ' + e.message); }
+}
+
+let Z = ucitaj(K.z, {...PODRAZUMEVANI_ZAPOSLENI});
+let P = {...PODRAZUMEVANI_PARAMETRI, ...ucitaj(K.p, {})};
+let OV = ucitaj(K.ov, {});                    // {'2026-06-15': 'G'}
+let OB = ucitaj(K.ob, [{id: 1, sifra: SIFRA_SINDIKAT, naziv: 'Sindikat - članarina',
+                        tip: 'fiksna', iznos_mesecno: 0, aktivna: 1}]);
+let AR = ucitaj(K.ar, {});                    // {'2026-06': {snimak}}
+let DD = {...PODRAZUMEVANI_DODATAK, ...ucitaj(K.dd, {})};
+let PR = ucitaj(K.pr, {});                    // prenos viška sati: {'2026-07': 6}
+
+let god = new Date().getFullYear();
+let mes = new Date().getMonth() + 1;
+let O = null;                                  // tekući obračun
+
+const MESECI = ['Januar','Februar','Mart','April','Maj','Jun','Jul','Avgust',
+                'Septembar','Oktobar','Novembar','Decembar'];
+const DANI_KRATKO = ['Pon','Uto','Sre','Čet','Pet','Sub','Ned'];
+const TIPOVI = {D:['Dnevna 12h','#fcdbe6'], N:['Noćna 12h','#14161b'],
+                '-':['Slobodan (ciklus)','#d3dde2'], S:['Slobodan namenski 8h','#a9e8de'],
+                G:['Godišnji odmor 8h','#f7edac'],
+                P:['Praznik (ne radi se)','#e4f6ee'], R:['Rad na praznik','#ffdcbc']};
+
+const din = n => (n ?? 0).toLocaleString('sr-RS', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const brs = n => (n ?? 0).toLocaleString('sr-RS', {maximumFractionDigits: 2});
+const kljucMeseca = () => `${god}-${String(mes).padStart(2, '0')}`;
+
+function poruka(tekst) {
+  const el = document.getElementById('poruka');
+  el.textContent = tekst;
+  el.classList.add('vidi');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('vidi'), 2600);
+}
+
+/* =====================================================================
+   CRTANJE
+   ===================================================================== */
+function kljucMesecaZa(g, m) { return `${g}-${String(m).padStart(2,'0')}`; }
+function sledeciMesecKljuc(g, m) {
+  let nm = m + 1, ng = g;
+  if (nm > 12) { nm = 1; ng++; }
+  return kljucMesecaZa(ng, nm);
+}
+
+function preracunaj() {
+  const dani = generisiMesec(god, mes, Z.pocetak_turnusa, Z.sablon_turnusa, OV);
+  const dodatak = {
+    ukljucen: DD.ukljucen, sati: DD.sati, max_sati: DD.max_sati,
+    prenesi: DD.prenesi, preneto: PR[kljucMesecaZa(god, mes)] || 0,
+  };
+  O = obracunaj(Z, dani, P, OB, dodatak);
+  O.dani = dani;
+
+  // Auto-prenos viška u sledeći mesec: čim se višak promeni, upiši ga za
+  // sledeći mesec. Ne izaziva petlju jer sacuvaj ne zove preracunaj.
+  if (DD.ukljucen && DD.prenesi) {
+    const sled = sledeciMesecKljuc(god, mes);
+    const noviVisak = O.dodatak.visak;
+    if ((PR[sled] || 0) !== noviVisak) {
+      if (noviVisak > 0) PR[sled] = noviVisak; else delete PR[sled];
+      sacuvaj(K.pr, PR);
+    }
+  }
+  nacrtaj();
+}
+
+function nacrtaj() {
+  document.getElementById('naziv-meseca').textContent = MESECI[mes-1] + ' ' + god;
+  document.getElementById('ime-zaposlenog').textContent = Z.ime || 'Zarada';
+  nacrtajKalendar();
+  nacrtajCipove();
+  nacrtajSumu();
+  nacrtajList();
+  nacrtajPodesavanja();
+}
+
+function nacrtajSumu() {
+  const zakljucan = AR[kljucMeseca()];
+  document.getElementById('suma-para').innerHTML = `
+    <div class="oznaka">Neto za isplatu${zakljucan ? ' 🔒' : ''}
+      <small>${MESECI[mes-1]} ${god} · dodirni za pun obračun</small></div>
+    <div class="iznos">${din(O.isplata)}</div>`;
+}
+
+function nacrtajKalendar() {
+  let html = DANI_KRATKO.map(d => `<div class="naziv-dana">${d}</div>`).join('');
+  html += '<div></div>'.repeat(O.dani[0].danUNedelji);
+  const danas = new Date().toISOString().slice(0, 10);
+  html += O.dani.map(d => `
+    <div class="dan t-${d.tip} ${d.rucno ? 'rucno' : ''} ${d.datum === danas ? 'danas' : ''}"
+         onclick="otvoriSheet('${d.datum}')">
+      <div class="broj">${d.dan}</div>
+      <div class="oznaka">${d.sati ? d.sati + 'h' : ''}<br>${TIPOVI[d.tip][0].split(' ')[0]}</div>
+    </div>`).join('');
+  document.getElementById('kalendar').innerHTML = html;
+}
+
+function nacrtajCipove() {
+  const s = O.sati;
+  const stavke = [['Redovni sati', s.redovni], ['Nedeljom', s.nedelja], ['Noćni', s.nocni],
+                  ['God. odmor 8h', s.go], ['Slobodan 8h', s.slobodan_nam],
+                  ['Radnih dana', s.radnih_dana]];
+  document.getElementById('cipovi').innerHTML = stavke.map(([o, v]) =>
+    `<div><div class="v">${brs(v)}</div><div class="o">${o}</div></div>`).join('');
+}
+
+/* Telefon nema mesta za 6 kolona tabele, pa svaka stavka dobija jednu
+   rečenicu koja objašnjava odakle iznos. Šifre se razlikuju po prirodi:
+   202 je sat × cena × koeficijent, 19 su DANI × dnevni iznos (ne sati!),
+   26/101/116 su procenat od osnovne zarade, 18/210 su fiksni iznosi. */
+function detaljStavke(p) {
+  if (p.sifra === SIFRE.REDOVAN)
+    return `${brs(p.sati)} h × ${din(p.osnovica)} × koef. ${brs(p.stopa)}`;
+  if (p.sifra === SIFRE.OBROK)
+    return `${brs(p.sati)} dana × ${din(p.stopa)} din`;
+  if (p.sifra === SIFRE.GO || p.sifra === SIFRE.SLOBODAN)
+    return `${brs(p.sati)} h × ${din(p.osnovica)} din (naknada)`;
+  if (p.sifra === SIFRE.REGRES || p.sifra === SIFRE.PUTNI)
+    return 'fiksni iznos';
+  if (p.sati)
+    return `${brs(p.sati)} h × ${din(p.osnovica)} × ${brs(p.stopa)}%`;
+  return `${brs(p.stopa)}% od ${din(p.osnovica)}`;
+}
+
+function nacrtajList() {
+  const zakljucan = AR[kljucMeseca()];
+  const primanja = O.primanja.map(p => `
+    <div class="stavka">
+      <div>
+        <div class="sifra">${p.sifra}</div>
+        <div class="naziv">${p.naziv}</div>
+        <div class="detalj">${detaljStavke(p)}</div>
+      </div>
+      <div class="iznos">${din(p.iznos)}</div>
+    </div>`).join('');
+
+  const porezi = O.porezi.map(p => `
+    <div class="stavka">
+      <div>
+        <div class="naziv">${p.naziv}</div>
+        <div class="detalj">stopa ${brs(p.stopa)}% · osn. ${din(p.osnovica)} ·
+          plaćeno ${din(p.placeno)}</div>
+      </div>
+      <div class="iznos">− ${din(p.za_uplatu)}</div>
+    </div>`).join('');
+
+  const obustave = O.obustave.length ? `
+    <div class="sekcija">Obustave</div>
+    ${O.obustave.map(o => `
+      <div class="stavka">
+        <div>
+          <div class="sifra">${o.sifra}</div>
+          <div class="naziv">${o.naziv}</div>
+          ${o.dug_pre !== null ? `<div class="detalj">dug ${din(o.dug_pre)} →
+            ${din(o.dug_posle)}</div>` : ''}
+        </div>
+        <div class="iznos">− ${din(o.iznos)}</div>
+      </div>`).join('')}
+    <div class="suma"><span class="o">Ukupno obustave</span>
+      <span class="v">− ${din(O.ukupno_obustave)}</span></div>` : '';
+
+  document.getElementById('list').innerHTML = `
+    <div class="list-vrh">
+      <div class="nad">Obračun zarade i naknade zarade</div>
+      <div class="glavni">${MESECI[mes-1]} ${god}${zakljucan ? ' 🔒' : ''}</div>
+      <div class="ispod">${Z.ime} · mat. br. ${Z.mb || '—'}<br>
+        vrednost sata ${din(Z.vrednost_sata)} × koef. ${Z.koeficijent} =
+        ${din(zaokruzi(Z.vrednost_sata * Z.koeficijent))} din/h</div>
+    </div>
+    <div class="sekcija">Opis primanja</div>
+    ${primanja}
+    <div class="suma">
+      <span class="o">Ukupna zarada (bruto)<br>
+        <span style="font-weight:400;color:var(--tekst3)">${brs(O.sati_ukupno)} h</span></span>
+      <span class="v">${din(O.bruto)}</span>
+    </div>
+    <div class="sekcija">Porezi i doprinosi</div>
+    ${porezi}
+    <div style="padding:6px 13px;font-size:10px;color:var(--tekst3)">
+      Poreska olakšica ${din(P.poreska_olaksica)} din odbijena od bruto pre poreza.
+    </div>
+    <div class="suma"><span class="o">Neto zarada</span><span class="v">${din(O.neto)}</span></div>
+    ${obustave}
+    <div class="isplata">
+      <span class="o">Neto za<br>isplatu</span>
+      <span class="v">${din(O.isplata)}</span>
+    </div>`;
+}
+
+function nacrtajPodesavanja() {
+  const polja = [
+    ['vrednost_sata', 'Vrednost sata', 'osnovica za sve'],
+    ['koeficijent', 'Koeficijent', 'množi vrednost sata'],
+    ['minuli_georad_pct', 'Minuli rad Georad %', 'šifra 116'],
+    ['minuli_drugde_pct', 'Minuli rad drugde %', 'šifra 101'],
+    ['ucinak_pct', 'Rad po učinku %', 'šifra 26 (10 ili 20)'],
+    ['regres', 'Regres', 'šifra 18, fiksno'],
+    ['obrok_po_danu', 'Topli obrok / dan', 'šifra 19'],
+    ['putni', 'Naknada prevoza', 'šifra 210, 0 = ne koristi se'],
+    ['nocni_sati_po_smeni', 'Noćnih sati po smeni', 'koliko od 12h pada u 22-06'],
+  ];
+  document.getElementById('polja-zaposleni').innerHTML = `
+    <div class="red">
+      <div><label>Ime</label></div>
+      <input class="polje" style="width:150px;text-align:left" value="${Z.ime}"
+             onchange="postaviZ('ime', this.value, true)">
+    </div>` + polja.map(([k, naziv, nap]) => `
+    <div class="red">
+      <div><label>${naziv}</label><div class="napomena">${nap}</div></div>
+      <input class="polje" type="number" inputmode="decimal" step="0.001"
+             value="${Z[k] ?? ''}" onchange="postaviZ('${k}', this.value)">
+    </div>`).join('') + `
+    <div class="red">
+      <div><label>Obračunavaj noćni rad (šifra 12)</label>
+        <div class="napomena">uvećanje 45%; isključi po potrebi</div></div>
+      <label class="switch"><input type="checkbox" ${Z.nocni_ukljucen !== false ? 'checked':''}
+        onchange="postaviZBool('nocni_ukljucen', this.checked)"><span class="klizac"></span></label>
+    </div>`;
+  document.getElementById('p-pocetak').value = Z.pocetak_turnusa;
+  const pSablon = document.getElementById('p-sablon');
+  if (pSablon) pSablon.value = Z.sablon_turnusa;
+
+  const opisi = {
+    poreska_olaksica: ['Poreska olakšica', 'neoporezivi iznos, din'],
+    stopa_pio: ['PIO', 'udeo, npr. 0.14'],
+    stopa_porez: ['Porez na lična primanja', 'udeo, npr. 0.10'],
+    stopa_zdravstveno: ['Zdravstveno', 'udeo, npr. 0.0515'],
+    stopa_nezaposlenost: ['Nezaposlenost', 'udeo, npr. 0.0075'],
+    uvecanje_nedelja: ['Uvećanje nedeljom', 'udeo, npr. 0.15'],
+    uvecanje_nocni: ['Uvećanje noćni rad', 'udeo, npr. 0.45'],
+    uvecanje_praznik: ['Uvećanje rad na praznik', 'udeo, npr. 1.10'],
+  };
+  document.getElementById('polja-parametri').innerHTML =
+    Object.entries(opisi).map(([k, [naziv, nap]]) => `
+      <div class="red">
+        <div><label>${naziv}</label><div class="napomena">${nap}</div></div>
+        <input class="polje" type="number" inputmode="decimal" step="0.0001"
+               value="${P[k]}" onchange="postaviP('${k}', this.value)">
+      </div>`).join('');
+
+  nacrtajDodatak();
+  nacrtajObustave();
+  nacrtajArhivu();
+}
+
+function nacrtajDodatak() {
+  const preneto = PR[kljucMeseca()] || 0;
+  const visak = O.dodatak ? O.dodatak.visak : 0;
+  const primenjen = O.dodatak ? O.dodatak.primenjen : 0;
+  const naGodisnjem = O.sati && O.sati.go > 0;
+  document.getElementById('polja-dodatak').innerHTML = `
+    <div class="red">
+      <div><label>Dodaj obećane sate</label>
+        <div class="napomena">uključi/isključi po potrebi</div></div>
+      <label class="switch"><input type="checkbox" ${DD.ukljucen?'checked':''}
+        onchange="postaviDD('ukljucen', this.checked)"><span class="klizac"></span></label>
+    </div>
+    <div class="red">
+      <div><label>Koliko sati</label><div class="napomena">obično 16</div></div>
+      <input class="polje" type="number" inputmode="decimal" value="${DD.sati}"
+             onchange="postaviDD('sati', this.value)">
+    </div>
+    <div class="red">
+      <div><label>Limit sati mesečno</label><div class="napomena">ne prelazi ovo</div></div>
+      <input class="polje" type="number" inputmode="decimal" value="${DD.max_sati}"
+             onchange="postaviDD('max_sati', this.value)">
+    </div>
+    <div class="red">
+      <div><label>Prenesi višak u sledeći mesec</label>
+        <div class="napomena">što ne stane u limit</div></div>
+      <label class="switch"><input type="checkbox" ${DD.prenesi?'checked':''}
+        onchange="postaviDD('prenesi', this.checked)"><span class="klizac"></span></label>
+    </div>
+    ${DD.ukljucen ? `
+    <div class="red" style="flex-direction:column;align-items:stretch;gap:3px;
+         background:rgba(56,89,106,.06)">
+      <div style="display:flex;justify-content:space-between">
+        <span class="napomena">Preneto iz prošlog meseca</span>
+        <b style="font-family:var(--broj);font-size:12px">${brs(preneto)} h</b></div>
+      <div style="display:flex;justify-content:space-between">
+        <span class="napomena">Dopisano ovog meseca</span>
+        <b style="font-family:var(--broj);font-size:12px;color:var(--zelena)">${brs(primenjen)} h</b></div>
+      <div style="display:flex;justify-content:space-between">
+        <span class="napomena">Prenosi se u sledeći</span>
+        <b style="font-family:var(--broj);font-size:12px;color:var(--crvena)">${brs(visak)} h</b></div>
+      ${naGodisnjem ? '<div class="napomena" style="color:var(--crvena)">Ovog meseca ima godišnji — dodatak se ne primenjuje.</div>' : ''}
+    </div>` : ''}`;
+}
+
+function postaviDD(kljuc, vrednost) {
+  if (kljuc === 'ukljucen' || kljuc === 'prenesi') DD[kljuc] = !!vrednost;
+  else DD[kljuc] = parseFloat(vrednost) || 0;
+  sacuvaj(K.dd, DD);
+  preracunaj();
+}
+
+function nacrtajObustave() {
+  const el = document.getElementById('lista-obustava');
+  if (!OB.length) { el.innerHTML = '<div class="prazno">Nema obustava.</div>'; return; }
+  el.innerHTML = OB.map(o => `
+    <div class="red" style="flex-direction:column;align-items:stretch;gap:8px">
+      <div style="display:flex;gap:8px;align-items:center">
+        <input class="polje siroko" value="${o.naziv}"
+               onchange="postaviO(${o.id}, 'naziv', this.value, true)">
+        <button class="dugme tiho" style="padding:8px 12px;min-height:40px"
+                onclick="obrisiO(${o.id})">×</button>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="napomena">šifra ${o.sifra} · mesečna rata</span>
+        <input class="polje" type="number" inputmode="decimal" value="${o.iznos_mesecno}"
+               onchange="postaviO(${o.id}, 'iznos_mesecno', this.value)">
+      </div>
+      ${o.tip === 'dug' ? `
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="napomena">ukupan dug</span>
+        <input class="polje" type="number" inputmode="decimal" value="${o.ukupan_dug||0}"
+               onchange="postaviO(${o.id}, 'ukupan_dug', this.value)">
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="napomena">otplaćeno</span>
+        <input class="polje" type="number" inputmode="decimal" value="${o.otplaceno||0}"
+               onchange="postaviO(${o.id}, 'otplaceno', this.value)">
+      </div>
+      <div class="napomena">preostalo: ${din((o.ukupan_dug||0) - (o.otplaceno||0))} din</div>
+      ` : ''}
+    </div>`).join('');
+}
+
+function nacrtajArhivu() {
+  const kljucevi = Object.keys(AR).sort().reverse();
+  const el = document.getElementById('arhiva');
+  if (!kljucevi.length) { el.innerHTML = '<div class="prazno">Nijedan mesec nije zaključan.</div>'; return; }
+  el.innerHTML = kljucevi.map(k => {
+    const a = AR[k], [g, m] = k.split('-').map(Number);
+    return `<div class="kartica" style="margin-bottom:6px;padding:11px 13px;display:flex;
+                 justify-content:space-between;align-items:center"
+                 onclick="idiNa(${g}, ${m})">
+      <div><div style="font-size:14px;font-weight:700">${MESECI[m-1]} ${g}</div>
+           <div class="napomena">bruto ${din(a.bruto)}</div></div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-family:var(--broj);font-size:14px;font-weight:700;color:var(--zelena)">
+          ${din(a.isplata)}</span>
+        <button class="dugme tiho" style="padding:6px 9px;min-height:34px"
+                onclick="event.stopPropagation();otkljucaj('${k}')">🔓</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* =====================================================================
+   AKCIJE
+   ===================================================================== */
+function prikazi(ime) {
+  document.querySelectorAll('.ekran').forEach(e => e.classList.remove('vidljiv'));
+  document.getElementById('ekran-' + ime).classList.add('vidljiv');
+  document.querySelectorAll('nav button').forEach(b =>
+    b.classList.toggle('aktivan', b.dataset.ekran === ime));
+  scrollTo(0, 0);
+}
+
+function pomeriMesec(korak) {
+  mes += korak;
+  if (mes > 12) { mes = 1; god++; }
+  if (mes < 1) { mes = 12; god--; }
+  preracunaj();
+  // klizanje: napred -> ulazi sleva strana, nazad -> desna
+  const kal = document.getElementById('kalendar');
+  kal.classList.remove('ka-levo', 'ka-desno');
+  void kal.offsetWidth;                    // restartuj animaciju
+  kal.classList.add(korak > 0 ? 'ka-levo' : 'ka-desno');
+}
+function naDanas() {
+  const d = new Date();
+  god = d.getFullYear();
+  mes = d.getMonth() + 1;
+  prikazi('kalendar');   // vrati na šihtaricu ako je korisnik bio drugde
+  preracunaj();
+  const kal = document.getElementById('kalendar');
+  kal.classList.remove('ka-levo', 'ka-desno');
+  void kal.offsetWidth;
+  kal.classList.add('ka-desno');
+  poruka('Prikazan tekući mesec: ' + MESECI[mes-1] + ' ' + god);
+}
+function idiNa(g, m) { god = g; mes = m; prikazi('obracun'); preracunaj(); }
+
+function postaviZ(kljuc, vrednost, tekst) {
+  Z[kljuc] = tekst ? vrednost : (vrednost === '' ? null : parseFloat(vrednost));
+  sacuvaj(K.z, Z); preracunaj();
+}
+function postaviZBool(kljuc, vrednost) {
+  Z[kljuc] = !!vrednost;
+  sacuvaj(K.z, Z); preracunaj();
+}
+function postaviP(kljuc, vrednost) {
+  P[kljuc] = parseFloat(vrednost);
+  sacuvaj(K.p, P); preracunaj();
+}
+function postaviO(id, kljuc, vrednost, tekst) {
+  const o = OB.find(x => x.id === id);
+  if (!o) return;
+  o[kljuc] = tekst ? vrednost : parseFloat(vrednost) || 0;
+  sacuvaj(K.ob, OB); preracunaj();
+}
+function novaObustava(tip) {
+  OB.push({
+    id: Date.now(),
+    sifra: tip === 'dug' ? SIFRA_SUDSKA : SIFRA_SINDIKAT,
+    naziv: tip === 'dug' ? 'Sudska obustava / kredit' : 'Sindikat',
+    tip, iznos_mesecno: 0, ukupan_dug: 0, otplaceno: 0, aktivna: 1,
+  });
+  sacuvaj(K.ob, OB); preracunaj();
+}
+function obrisiO(id) {
+  if (!confirm('Obrisati obustavu?')) return;
+  OB = OB.filter(x => x.id !== id);
+  sacuvaj(K.ob, OB); preracunaj();
+}
+
+/* Sheet za izbor tipa dana -- na telefonu je ovo prirodnije od menija. */
+let sheetDatum = null;
+function otvoriSheet(datum) {
+  sheetDatum = datum;
+  const dan = O.dani.find(d => d.datum === datum);
+  const [g, m, d] = datum.split('-');
+  document.getElementById('sheet-naslov').textContent =
+    `${+d}. ${MESECI[+m-1]} ${g}${dan.praznik ? ' — ' + dan.praznik : ''}${dan.nedelja ? ' — nedelja' : ''}`;
+  document.getElementById('sheet-sadrzaj').innerHTML =
+    Object.entries(TIPOVI).map(([k, [naziv, boja]]) => `
+      <button class="izbor" onclick="postaviDan('${k}')">
+        <i style="background:${boja};border:1px solid var(--linija2)"></i>${naziv}
+        ${dan.tip === k ? '<span style="margin-left:auto;color:var(--crvena)">✓</span>' : ''}
+      </button>`).join('') +
+    `<button class="izbor" style="color:var(--tekst3)" onclick="postaviDan(null)">
+       <i style="background:transparent"></i>↺ Vrati na turnus</button>
+     <div style="border-top:1px solid var(--linija);margin:6px 6px 4px"></div>
+     <button class="izbor" style="color:var(--crvena);font-weight:600"
+             onclick="postaviPocetakCiklusa('${datum}')">
+       <i style="background:var(--crvena)"></i>◆ Ovde počinje moj ciklus (4 rada, 4 slobodna)</button>`;
+  document.getElementById('zavesa').classList.add('otvorena');
+  document.getElementById('sheet').classList.add('otvoren');
+}
+function zatvoriSheet() {
+  document.getElementById('zavesa').classList.remove('otvorena');
+  document.getElementById('sheet').classList.remove('otvoren');
+}
+function postaviDan(tip) {
+  if (AR[kljucMeseca()]) { poruka('Mesec je zaključan — otključaj ga u Podešavanjima.'); zatvoriSheet(); return; }
+  if (tip === null) delete OV[sheetDatum];
+  else OV[sheetDatum] = tip;
+  sacuvaj(K.ov, OV);
+  zatvoriSheet();
+  preracunaj();
+}
+
+/* Klik na dan postavlja početak ciklusa 4-4 od tog dana. Turnus se odatle
+   sam prostire do kraja godine (i unazad) -- ne pamti se svaki dan, računa
+   se iz šablona. Postojeći ručni unosi (odmor, slobodan) ostaju netaknuti,
+   samo se sa startnog dana skida eventualni override da bude prvi radni dan. */
+function postaviPocetakCiklusa(datum) {
+  if (AR[kljucMeseca()]) { poruka('Mesec je zaključan.'); zatvoriSheet(); return; }
+  Z.pocetak_turnusa = datum;
+  Z.sablon_turnusa = 'DDDD----';
+  delete OV[datum];
+  sacuvaj(K.z, Z); sacuvaj(K.ov, OV);
+  zatvoriSheet();
+  poruka('Ciklus 4-4 postavljen od ' + datum);
+  preracunaj();
+}
+
+/* Zaključavanje: knjiži rate kredita na dug i pamti snimak.
+   Bez ovoga bi svako otvaranje meseca ponovo "otplatilo" ratu. */
+function zakljucaj() {
+  const k = kljucMeseca();
+  if (AR[k]) { poruka('Mesec je već zaključan.'); return; }
+  if (!confirm(`Zaključati ${MESECI[mes-1]} ${god}?\n\nRate kredita se knjiže na dug.`)) return;
+  AR[k] = {bruto: O.bruto, neto: O.neto, isplata: O.isplata,
+           primanja: O.primanja, porezi: O.porezi, obustave: O.obustave,
+           sati: O.sati, kreiran: new Date().toISOString()};
+  for (const st of O.obustave) {
+    if (st.dug_pre === null) continue;
+    const o = OB.find(x => x.id === st.id);
+    if (!o) continue;
+    o.otplaceno = (o.otplaceno || 0) + st.iznos;
+    if (o.otplaceno >= o.ukupan_dug) o.aktivna = 0;
+  }
+  sacuvaj(K.ar, AR); sacuvaj(K.ob, OB);
+  poruka('Zaključano. Rate knjižene na dug.');
+  preracunaj();
+}
+function otkljucaj(k) {
+  if (!confirm(`Otključati ${k}?\n\nRate knjižene tog meseca NEĆE biti vraćene na dug — ` +
+               `ispravi "otplaćeno" ručno ako treba.`)) return;
+  delete AR[k];
+  sacuvaj(K.ar, AR);
+  preracunaj();
+}
+
+/* Backup: ceo localStorage u jedan JSON. Telefon se gubi, briše, resetuje. */
+function izvezi() {
+  const podaci = {verzija: 2, zaposleni: Z, parametri: P, overrides: OV,
+                  obustave: OB, arhiva: AR, dodatak: DD, prenos: PR};
+  const blob = new Blob([JSON.stringify(podaci, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'georad-zarada-' + new Date().toISOString().slice(0, 10) + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function uvezi(input) {
+  const f = input.files[0];
+  if (!f) return;
+  const citac = new FileReader();
+  citac.onload = e => {
+    try {
+      const d = JSON.parse(e.target.result);
+      if (!d.zaposleni) throw new Error('Fajl nema podatke o zaposlenom');
+      Z = d.zaposleni; P = {...PODRAZUMEVANI_PARAMETRI, ...d.parametri};
+      OV = d.overrides || {}; OB = d.obustave || []; AR = d.arhiva || {};
+      DD = {...PODRAZUMEVANI_DODATAK, ...(d.dodatak || {})}; PR = d.prenos || {};
+      sacuvaj(K.z, Z); sacuvaj(K.p, P); sacuvaj(K.ov, OV);
+      sacuvaj(K.ob, OB); sacuvaj(K.ar, AR); sacuvaj(K.dd, DD); sacuvaj(K.pr, PR);
+      poruka('Podaci uvezeni.');
+      preracunaj();
+    } catch (err) { poruka('Uvoz nije uspeo: ' + err.message); }
+  };
+  citac.readAsText(f);
+  input.value = '';
+}
+
+/* Service worker radi samo sa http(s). Sa file:// se tiho preskače --
+   aplikacija i tako radi offline jer je sve u ovom fajlu. */
+(function ugradiManifest(){try{const i=document.querySelector('link[rel=icon]')?.href;
+const m={name:'Obračun zarade',short_name:'Zarada',display:'standalone',orientation:'portrait',
+background_color:'#dde1e3',theme_color:'#38596a',lang:'sr',start_url:location.href,scope:'.',
+icons:i?[{src:i,sizes:'192x192',type:'image/png',purpose:'any'},{src:i,sizes:'512x512',type:'image/png',purpose:'maskable'}]:[]};
+const b=new Blob([JSON.stringify(m)],{type:'application/manifest+json'});const l=document.createElement('link');
+l.rel='manifest';l.href=URL.createObjectURL(b);document.head.appendChild(l);}catch(e){}})();
+
+preracunaj();
+</script>
+</body>
+</html>
